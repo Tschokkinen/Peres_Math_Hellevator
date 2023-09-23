@@ -33,23 +33,6 @@ public class ClickManager : MonoBehaviour
         timer = GameObject.Find("Timer").GetComponent<Timer>(); // Get timer
         mathProblems = Database.GetDatabase(); // Get math problems from database
         SetMathProblem();
-
-
-    // public PoopletConstructor(int id, string title, Dictionary<string, int> stats)
-    // {
-    //     this.Id = id;
-    //     this.Title = title;
-    //     this.stats = stats;
-    //     //this.go = Resources.Load<GameObject>("Prefabs/Pooplets/" + type);
-    // }
-            //     poops = new List<PoopletConstructor>()
-            // {
-            //     new PoopletConstructor(0, "Normal Pooplet",
-            //     new Dictionary<string, int>
-            //     {
-            //         {"Value", 200}
-            //     })
-            // };
     }
 
     void SetMathProblem()
@@ -61,7 +44,7 @@ public class ClickManager : MonoBehaviour
         mathQuestion.text = mathProblems[nextMathProblem].Question;
 
         nextMathProblem++;
-        if (nextMathProblem == 2) nextMathProblem = 0;
+        if (nextMathProblem == Database.GetNumberOfProblems()) nextMathProblem = 0;
     }
 
     // Detect answer click
