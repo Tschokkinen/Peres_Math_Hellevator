@@ -44,3 +44,6 @@ TagManager:
   - name: Character
     uniqueID: 3555519783
     locked: 0
+  - name: Canvas
+    uniqueID: 1504625257
+    locked: 0
