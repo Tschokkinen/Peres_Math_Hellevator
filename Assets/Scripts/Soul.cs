@@ -84,7 +84,8 @@ public class Soul : MonoBehaviour
         {
             GameManager.PointCounter(1);
         }
-        Destroy(this.gameObject, 0.5f);
+
+        if (this.gameObject != null) Destroy(this.gameObject, 0.5f);
         Debug.Log("Soul delivered");
     }
 }

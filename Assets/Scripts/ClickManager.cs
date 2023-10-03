@@ -7,10 +7,15 @@ using System;
 
 public class ClickManager : MonoBehaviour
 {
+
+
     [SerializeField] private List<MathProblem> mathProblems = new List<MathProblem>();
     [SerializeField] private Button answer1Button = null;
     [SerializeField] private Button answer2Button = null;
+    [SerializeField] private Button hellButton = null;
+    [SerializeField] private Button heavenButton = null;
     [SerializeField] private TMP_Text mathQuestion;
+    [SerializeField] private Button restart = null;
 
     [SerializeField] private Timer timer;
 
@@ -23,8 +28,13 @@ public class ClickManager : MonoBehaviour
     void Awake()
     {
         // Add listeners to answer buttons
-        answer1Button.onClick.AddListener(delegate{AnswerClick(answer1Button.GetComponentInChildren<TMP_Text>());});
-        answer2Button.onClick.AddListener(delegate{AnswerClick(answer2Button.GetComponentInChildren<TMP_Text>());});
+        // answer1Button.onClick.AddListener(delegate{AnswerClick(answer1Button.GetComponentInChildren<TMP_Text>());});
+        // answer2Button.onClick.AddListener(delegate{AnswerClick(answer2Button.GetComponentInChildren<TMP_Text>());});
+        // hellButton.onClick.AddListener(delegate{GoesToHell();});
+        // heavenButton.onClick.AddListener(delegate{GoesToHeaven();});
+        restart.onClick.AddListener(delegate{Restart();});
+
+        ButtonEvent.onClick += OnClickManager;
     }
 
     void Start()
@@ -48,13 +58,19 @@ public class ClickManager : MonoBehaviour
     }
 
     // Detect answer click
-    void AnswerClick(TMP_Text answer)
+    private void AnswerClick(TMP_Text answer)
     {
         Debug.Log(answer.text);
         if (answer.text == rightAnswer) timer.GetMoreTime();
         if (answer.text != rightAnswer) timer.ReduceTime();
 
         SetMathProblem(); // Get next math problem
+    }
+
+    // Restart game
+    private void Restart()
+    {
+        GameManager.RestartGame();
     }
 
     // Broadcast destination of Heaven/Hell button click (toHeaven or !toHeaven)
@@ -64,29 +80,89 @@ public class ClickManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    // void Update()
+    // {
+    //     // Mouse controls (not in use currently)
+    //     if (Input.GetMouseButtonDown(0))
+    //     {
+    //         Vector3 mousePosition = Input.mousePosition;
+    //         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+    //         if (Physics.Raycast(ray, out RaycastHit hit))
+    //         {
+    //             // string targetName = hit.collider.transform.name;
+    //             // switch (targetName)
+    //             // {
+    //             //     case "GoesToHeaven":
+    //             //         GoesToHeaven();
+    //             //         break;
+    //             //     case "GoesToHell":
+    //             //         GoesToHell();
+    //             //         break;
+    //             // }
+    //         }
+    //     }
+
+    //     // Touch controls
+    //     foreach (Touch touch in Input.touches)
+    //     {
+    //         if (touch.phase == TouchPhase.Began)
+    //         {
+    //             Ray ray = Camera.main.ScreenPointToRay(touch.position);
+    //             RaycastHit hit;
+
+    //             if (Physics.Raycast(ray, out hit))
+    //             {
+    //                 if (hit.collider.transform != null)
+    //                 {
+    //                     if (hit.collider.transform.name == "GoesToHeaven")
+    //                     {
+    //                         GoesToHeaven();
+    //                     }
+    //                     else if (hit.collider.transform.name == "GoesToHell")
+    //                     {
+    //                         GoesToHell();
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    private void OnClickManager(object sender, GameObject buttonName)
     {
-        if (Input.GetMouseButtonDown(0))
+        Debug.Log("Sender name: " + buttonName);
+        // string buttonName = sender.ToString();
+        if (buttonName.name == "HellButton")
         {
-            Vector3 mousePosition = Input.mousePosition;
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                string targetName = hit.collider.transform.name;
-                switch (targetName)
-                {
-                    case "GoesToHeaven":
-                        toHeaven = true;
-                        Debug.Log("Hit GoesToHeaven");
-                        DeliverNextSoul(toHeaven);
-                        break;
-                    case "GoesToHell":
-                        toHeaven = false;
-                        Debug.Log("Hit GoesToHell");
-                        DeliverNextSoul(toHeaven);
-                        break;
-                }
-            }
+            GoesToHell();
         }
+        else if (buttonName.name == "HeavenButton")
+        {
+            GoesToHeaven();
+        }
+        else if (buttonName.name == "Answer1" || buttonName.name == "Answer2")
+        {
+            AnswerClick(buttonName.GetComponentInChildren<TMP_Text>());
+        }
+        else if (buttonName.name == "Restart")
+        {
+            Restart();
+        }
+    }
+
+    // Send soul to heaven (callable from TouchControls script)
+    private void GoesToHeaven()
+    {
+        toHeaven = true;
+        Debug.Log("Hit GoesToHeaven");
+        DeliverNextSoul(toHeaven);
+    }
+
+    // Send soul to hell (callable from TouchControls script)
+    private void GoesToHell()
+    {
+        toHeaven = false;
+        Debug.Log("Hit GoesToHell");
+        DeliverNextSoul(toHeaven);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private static int posInt; // Position for next soul
     [SerializeField] private static TMP_Text pointsText; // Current points text
     [SerializeField] private static int points; // Current points
+    [SerializeField] private GameObject gameOver = null;
 
     private static GameObject hellTarget; // Hell transform
     private static GameObject heavenTarget; // Heaven transform
@@ -51,6 +53,12 @@ public class GameManager : MonoBehaviour
         Timer.timerStatus += TimerStatus; // Subscribe to timer status
     }
 
+    public static void RestartGame()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
+    }
+
     // Receive timer status broadcast
     private void TimerStatus(object sender, bool timerReachedZero)
     {
@@ -66,6 +74,7 @@ public class GameManager : MonoBehaviour
             StopCoroutine(SoulInstantiater());
             Soul.soulDelivered -= SoulDelivered;
             Timer.timerStatus -= TimerStatus;
+            gameOver.SetActive(true);
         }
     }
 
