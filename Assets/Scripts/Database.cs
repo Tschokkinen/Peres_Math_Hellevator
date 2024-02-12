@@ -32,8 +32,8 @@ public class Database : MonoBehaviour
         Random rnd = new Random();
         for (int i = 0; i < numberOfProblemsStatic; i++)
         {
-            int val1 = rnd.Next(0, 20);
-            int val2 = rnd.Next(0, 20);
+            int val1 = rnd.Next(0, 10);
+            int val2 = rnd.Next(0, 10);
             numbers.Add((val1, val2));
             Debug.Log($"Next val1 {val1} and val2 {val2}");
         }
@@ -78,7 +78,7 @@ public class Database : MonoBehaviour
         // Generate random wrong answer
         do
         {
-            float generatedWrongAnswer = UnityEngine.Random.Range(-10.0f, 20.0f);
+            float generatedWrongAnswer = UnityEngine.Random.Range(0, 10);
             randomWrongAnswer = (int) generatedWrongAnswer;
         } 
         while (randomWrongAnswer == result);
