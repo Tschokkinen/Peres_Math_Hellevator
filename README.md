@@ -1,5 +1,5 @@
-# Peres_Math_Hellevator
-Personal project: Game proto made in Unity in which players must answer to math problems while sending souls to a proper destination.
+# Pere's Mathelevator
+Personal project: Game proto made in Unity in which players must answer to math problems while sending people arriving by elevator to their designated destination (red or blue).
 
 Current test graphics made with primitive 2D shapes; graphics will be replaced with low poly 3D models later.
 
